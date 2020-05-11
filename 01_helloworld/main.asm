@@ -1,11 +1,23 @@
 section .data
-msg db 'Hello, World!', 0Ah
+msg db 'Hello, brave new World!', 0Ah
 
 section .text
 global _start
 
 _start:
-  mov edx, 14
+  mov ebx, msg
+  mov eax, ebx
+
+nextchar:
+  cmp byte [eax], 0
+  jz finished
+  inc eax
+  jmp nextchar
+
+finished:
+  sub eax, ebx
+
+  mov edx, eax
   mov ecx, msg
   mov ebx, 1
   mov eax, 4
