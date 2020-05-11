@@ -1,21 +1,12 @@
 section .data
-msg db 'Hello, brave new World!', 0Ah
+msg db 'Hello, brave new World and all other people!', 0Ah
 
 section .text
 global _start
 
 _start:
-  mov ebx, msg
-  mov eax, ebx
-
-nextchar:
-  cmp byte [eax], 0
-  jz finished
-  inc eax
-  jmp nextchar
-
-finished:
-  sub eax, ebx
+  mov eax, msg
+  call strlen
 
   mov edx, eax
   mov ecx, msg
@@ -26,3 +17,17 @@ finished:
   mov ebx, 0
   mov eax, 1
   int 80h
+
+
+strlen:
+  push ebx
+  mov ebx, eax
+strlen_loop:
+  cmp byte [eax], 0
+  jz strlen_end
+  inc eax
+  jmp strlen_loop
+strlen_end:
+  sub eax, ebx
+  pop ebx
+  ret
